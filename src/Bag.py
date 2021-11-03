@@ -82,3 +82,104 @@ class Discriminator(nn.Module) :
 		x = x.view(-1, 784)
 		return self.main(x)
 
+#init NN's
+generator = Generator(noise)
+discriminator = Discriminator()
+
+print('### GENERATOR ###')
+print(generator)
+print('#################')
+
+print('\n### DISCRIMINATOR ###')
+print(discriminator)
+print('######################')
+
+#Optims
+optim_g = optim.Adam(generator.parameters(), lr=0.0002)
+optim_d = optim.Adam(discriminator.parameters(), lr=0.0002)
+
+#Loss
+criter = nn.BCELoss()
+
+losses_g = []
+losses_d = []
+images = []
+
+#create real labels
+def label_real(size):
+	data = torch.ones(size, 1)
+	return data
+def label_fake(size): 
+	data = torch.zeros(size, 1)
+	return data
+
+#creating noise vector
+def create_noise(sample_size, noise): 
+	return torch.randn(sample_size, noise)
+
+# Saving images
+def save_generator_image(image, path):
+	save_image(image, path)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
