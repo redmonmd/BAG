@@ -31,8 +31,8 @@ to_pil_image = transforms.ToPILImage()
 train_data = datasets.MNIST(
 	root='../input/data',
 	train=True,
-	download=True,
-	transform=transform
+	transform=transform,
+	download=True 
    )
 train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
 
