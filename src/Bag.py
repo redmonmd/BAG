@@ -115,7 +115,7 @@ def label_fake(size):
 	return data
 
 #creating noise vector
-def create_noise(sample_size, noise): 
+def create_noise(512,10)
 	return torch.randn(sample_size, noise)
 
 # Saving images
@@ -123,7 +123,7 @@ def save_generator_image(image, path):
 	save_image(image, path)
 
 #train discriminator
-def train_discriminator(optimizer, data_real, data_fake,): 
+def train_discriminator(optimizer, data_real, data_fake): 
 	b_size = data_real.size(0)
 	real_label = label_real(b_size)
 	fake_label = label_fake(b_size)
@@ -143,7 +143,61 @@ def train_discriminator(optimizer, data_real, data_fake,):
 	
 	return loss_real + loss_fake
  
+def train_generator(optimizer, data_fake): 
+	b_size = data_fake.size(0)
+	real_label = label_real(b_size)
+	
+	opimizer.tiny_grad()
+	
+	output = discriminator(data_fake)
+	loss = criter(output, real_label)
+	
+	loss.backward()
+	optimizer.step()
 
+	return loss
+
+#noise vector
+noize = create_noise(sample_size, noise)
+
+generator.train()
+discriminator.train()
+
+for epoch in range(epochs): 
+	loss_g = 0.0
+	loss_d = 0.0
+	for bi, data in tqdm(enumerate(train_loader), total=int(len(train_data)/train_loader.batch_size)): 
+		image, _ = data
+		b_size = len(image)
+		#Run discrim for k num steps
+		for step in range(k): 
+			data_fake = generator(create_noise(b_size, noise)).detach()
+			data_real = image
+			#descrim train network
+			loss_d += train_discriminator(optim_d, data_real, data_fake)
+		data_fake = generator(create_noise(b_size, data_fake))
+		
+	#final fakey
+	generated_img = generator(noise).cpu().detach()
+	#make the image grid
+	generated_img = make_grid(generated_img)
+	#save gen models to disk
+	save_generator_image(generated_img, f"../outputs/gen_img{epoch}.png")
+	images.append(generated_img)
+	epoch_loss_g = loss_g / bi
+	epoch_loss_d = loss_d / bi
+	losses_g.append(epoch_loss_g)
+	losses_d.append(epoch_loss_d)
+
+	print(f"Epoch {epoch}")
+	print(f"Generator loss: {epoch_loss_g:.8f}, Discriminator loss: {epoch_loss_d:.8f}")
+
+print(' DONE ')
+torch.save(generator.state_dict(), '/outputs/generator.pth')
+
+##save gen image as GIF
+imgs = [np.array(to_pil_image(image)) for img in images]
+imageio.mimsave('../outputs/generator_images.gif', imgs)
 
 
 
