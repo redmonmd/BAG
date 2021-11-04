@@ -115,7 +115,7 @@ def label_fake(size):
 	return data
 
 #creating noise vector
-def create_noise(512,10)
+def create_noise(sample_size, noisez):
 	return torch.randn(sample_size, noise)
 
 # Saving images
@@ -178,7 +178,7 @@ for epoch in range(epochs):
 		data_fake = generator(create_noise(b_size, data_fake))
 		
 	#final fakey
-	generated_img = generator(noise).cpu().detach()
+	generated_img = generator(noize).cpu().detach()
 	#make the image grid
 	generated_img = make_grid(generated_img)
 	#save gen models to disk
@@ -198,6 +198,7 @@ torch.save(generator.state_dict(), '/outputs/generator.pth')
 ##save gen image as GIF
 imgs = [np.array(to_pil_image(image)) for img in images]
 imageio.mimsave('../outputs/generator_images.gif', imgs)
+
 
 
 
