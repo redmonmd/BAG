@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 import torch.optim as optim
 import imageio
@@ -8,7 +9,7 @@ import matplotlib
 
 from torchvision.utils import make_grid, save_image
 from torch.utils.data import DataLoader
-From matplotlib import pyplot as plt
+from matplotlib import pyplot as plt
 from tqdm import tqdm
 
 matplotlib.style.use('ggplot')
@@ -28,9 +29,9 @@ transform = transforms.Compose([
 to_pil_image = transforms.ToPILImage()
 
 train_data = datasets.MNIST(
-	root='../input/data'
-	train=True
-	Download=True
+	root='../input/data',
+	train=True,
+	download=True,
 	transform=transform
    )
 train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
@@ -38,9 +39,9 @@ train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
 # Generator NN
 class Generator(nn.Module) : 
 	def __init__(self, noise) :
-		super(Generator, self).init()
+		super(Generator, self).__init__()
 		self.noise = noise
-		self.main = nn.Sequential (
+		self.main = nn.Sequential(
 			nn.Linear(self.noise, 256),
 			nn.LeakyReLU(0.2),
 			
@@ -121,7 +122,27 @@ def create_noise(sample_size, noise):
 def save_generator_image(image, path):
 	save_image(image, path)
 
+#train discriminator
+def train_discriminator(optimizer, data_real, data_fake,): 
+	b_size = data_real.size(0)
+	real_label = label_real(b_size)
+	fake_label = label_fake(b_size)
 
+	optimizer.zero_grad()
+	
+	output_real = discriminator(data_real)
+	loss_real = criter(output_real, real_label)
+	
+	output_fake = discriminator(data_fake)
+	loss_fake = criter(output_fake, fake_label)
+	
+	
+	loss_real.backward()
+	loss_fake.backward()
+	optimizer.step()
+	
+	return loss_real + loss_fake
+ 
 
 
 
