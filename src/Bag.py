@@ -199,7 +199,12 @@ torch.save(generator.state_dict(), '/outputs/generator.pth')
 imgs = [np.array(to_pil_image(image)) for img in images]
 imageio.mimsave('../outputs/generator_images.gif', imgs)
 
-
+#plotting
+plt.figure()
+plt.plot(losses_d, label='Discriminator loss')
+plt.plot(losses_g, label='Generator loss')
+plt.legend()
+plt.show()
 
 
 
