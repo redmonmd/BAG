@@ -115,7 +115,7 @@ def label_fake(size):
 	return data
 
 #creating noise vector
-def create_noise(sample_size, noisez):
+def create_noise(sample_size, noise):
 	return torch.randn(sample_size, noise)
 
 # Saving images
@@ -147,7 +147,7 @@ def train_generator(optimizer, data_fake):
 	b_size = data_fake.size(0)
 	real_label = label_real(b_size)
 	
-	opimizer.tiny_grad()
+	opimizer.zero_grad()
 	
 	output = discriminator(data_fake)
 	loss = criter(output, real_label)
@@ -175,7 +175,7 @@ for epoch in range(epochs):
 			data_real = image
 			#descrim train network
 			loss_d += train_discriminator(optim_d, data_real, data_fake)
-		data_fake = Generator(create_noise(b_size, data_fake))
+		data_fake = generator(create_noise(b_size, data_fake))
 		
 	#final fakey
 	generated_img = generator(noize).cpu().detach()
