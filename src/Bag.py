@@ -23,7 +23,7 @@ k = 1
 
 transform = transforms.Compose([
 				transforms.ToTensor(),
-				transforms.Normalize((0.5,), (0.5))
+				transforms.Normalize((0.5,), (0.5,))
 ])
 
 to_pil_image = transforms.ToPILImage()
@@ -171,11 +171,11 @@ for epoch in range(epochs):
 		b_size = len(image)
 		#Run discrim for k num steps
 		for step in range(k): 
-			data_fake = Generator(create_noise(b_size, noise)).detach()
+			data_fake = generator(create_noise(b_size, noise)).detach()
 			data_real = image
 			#descrim train network
 			loss_d += train_discriminator(optim_d, data_real, data_fake)
-		data_fake = generator(create_noise(b_size, data_fake))
+		data_fake = generator(create_noise(b_size, noise))
 		
 	#final fakey
 	generated_img = generator(noize).cpu().detach()
