@@ -23,7 +23,7 @@ k = 1
 
 transform = transforms.Compose([
 				transforms.ToTensor(),
-				transforms.Normalize(1, 1)),
+				transforms.Normalize((0.5,), (0.5))
 ])
 
 to_pil_image = transforms.ToPILImage()
