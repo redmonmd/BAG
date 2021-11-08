@@ -190,7 +190,7 @@ for epoch in range(epochs):
 	losses_d.append(epoch_loss_d)
 
 	print("Epoch %d" % epoch)
-	print("Generator loss: %f, Discriminator loss: %f" % epoch_loss_d, epoch_loss_d)
+	print(f"Generator loss: {epoch_loss_g: .8f}, Discriminator loss: {epoch_loss_d: .8f}")
 
 print(' DONE ')
 torch.save(generator.state_dict(), '../outputs/generator.pth')
