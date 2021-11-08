@@ -1,4 +1,4 @@
-import torch
+import torch 
 import torch.nn as nn
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
@@ -182,18 +182,18 @@ for epoch in range(epochs):
 	#make the image grid
 	generated_img = make_grid(generated_img)
 	#save gen models to disk
-	save_generator_image(generated_img, f"../outputs/gen_img{epoch}.png")
+	save_generator_image(generated_img, "../outputs/gen_img%d.png" % epoch) 
 	images.append(generated_img)
 	epoch_loss_g = loss_g / bi
 	epoch_loss_d = loss_d / bi
 	losses_g.append(epoch_loss_g)
 	losses_d.append(epoch_loss_d)
 
-	print(f"Epoch {epoch}")
-	print(f"Generator loss: {epoch_loss_g:.8f}, Discriminator loss: {epoch_loss_d:.8f}")
+	print("Epoch %d" % epoch)
+	print("Generator loss: %f, Discriminator loss: %f" % epoch_loss_d, epoch_loss_d)
 
 print(' DONE ')
-torch.save(generator.state_dict(), '/outputs/generator.pth')
+torch.save(generator.state_dict(), '../outputs/generator.pth')
 
 ##save gen image as GIF
 imgs = [np.array(to_pil_image(image)) for img in images]
