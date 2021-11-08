@@ -37,8 +37,8 @@ train_data = datasets.MNIST(
 train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
 
 # Generator NN
-class Generator(nn.Module) : 
-	def __init__(self, noise) :
+class Generator(nn.Module): 
+	def __init__(self, noise):
 		super(Generator, self).__init__()
 		self.noise = noise
 		self.main = nn.Sequential(
@@ -52,7 +52,7 @@ class Generator(nn.Module) :
 			nn.LeakyReLU(0.2),
 
 			nn.Linear(1024, 784),
-			nn.Tanh(),
+			nn.Tanh()
 		)
 
 	def forward(self, x) : 
@@ -76,7 +76,7 @@ class Discriminator(nn.Module) :
 			nn.Dropout(0.3),
 
 			nn.Linear(256, 1),
-			nn.Sigmoid(),
+			nn.Sigmoid()
 
 		)
 	def forward(self, x) : 
