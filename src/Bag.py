@@ -39,7 +39,6 @@ train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
 # Generator NN
 class Generator(nn.Module): 
 	def __init__(self, noise):
-		super(Generator, self).__init__()
 		self.noise = noise
 		self.main = nn.Sequential(
 			nn.Linear(self.noise, 256),
