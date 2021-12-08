@@ -11,7 +11,7 @@ This project will consist of three folders:
 ## TODO
  - Unknown error with the generator, causing it to not learn on anything
  - ~~Fix minor bugs with tensor sizes, etc~~
- - A little more commenting in code is neccisary
+ - A little more commenting in code is neccsary
 
 There will be a decent room for improvement, I do not plan to archive this project for awhile.
 If you would like to help, please feel free to send a pull request.
