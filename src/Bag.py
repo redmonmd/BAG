@@ -22,8 +22,8 @@ noise = 128
 k = 1
 
 transform = transforms.Compose([
-				transforms.ToTensor(),
-				transforms.Normalize((0.5,), (0.5,))
+	transforms.ToTensor(),
+	transforms.Normalize((0.5,), (0.5,))
 ])
 
 to_pil_image = transforms.ToPILImage()
@@ -38,20 +38,20 @@ train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
 
 # Generator NN
 class Generator(nn.Module): 
-	def __init__(self, noise):	
+    def __init__(self, noise):	
    	super(Generator(noise).__init__())
     self.main = nn.Sequential(
-			nn.Linear(noise, 256),
-			nn.LeakyReLU(0.2),
+		nn.Linear(noise, 256),
+		nn.LeakyReLU(0.2),
 			
-			nn.Linear(256, 512),
-			nn.LeakyReLU(0.2),
+		nn.Linear(256, 512),
+		nn.LeakyReLU(0.2),
 			
-			nn.Linear(512, 1024),
-			nn.LeakyReLU(0.2),
+		nn.Linear(512, 1024),
+        nn.LeakyReLU(0.2),
 
-			nn.Linear(1024, 784),
-			nn.Tanh()
+		nn.Linear(1024, 784),
+		nn.Tanh()
 		)
 	def forward(self, x) : 
 		return self.main(x).view(-1,1,28,28)
