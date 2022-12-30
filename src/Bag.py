@@ -120,7 +120,7 @@ def save_generator_image(image, path):
 
 #train discriminator
 def train_discriminator(optimizer, data_real, data_fake):
-    b_size = data_real.size(0)
+    b_size = data_real[0]
     real_label = label_real(b_size)
     fake_label = label_fake(b_size)
 
@@ -140,7 +140,7 @@ def train_discriminator(optimizer, data_real, data_fake):
     return loss_real + loss_fake
 
 def train_generator(optimizer, data_fake):
-    b_size = data_fake.size(0)
+    b_size = data_fake[0]
     real_label = label_real(b_size)
 
     opimizer.zero_grad()
