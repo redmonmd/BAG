@@ -3,7 +3,7 @@ import torch.nn as nn
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 import torch.optim as optim
-import cv2
+import PIL
 import imageio
 import numpy as np
 import matplotlib
@@ -159,11 +159,19 @@ noize = create_noise(sample_size, noise)
 generator.train()
 discriminator.train()
 
+def tensor_to_image(tensor):
+    tensor = tensor*255
+    tensor = np.array(tensor)
+    if np.ndim(tensor)>3:
+        assert tensor.shape[0] == 1
+        tensor = tensor[0]
+    return PIL.Image.fromarray(tensor)
+
 for epoch in range(epochs):
     loss_g = 0.0
     loss_d = 0.0
     for bi, data in tqdm(enumerate(train_loader), total=int(len(train_data)/train_loader.batch_size)):
-        image, _ = data
+        image = data
         b_size = len(image)
          #Run discrim for k num steps
         for step in range(k):
@@ -175,9 +183,9 @@ for epoch in range(epochs):
     #final fakey
     generated_img = generator(noize).detach()
     #make the image grid
-    generated_img = make_grid(generated_img)
+    gen_image = make_grid(generated_img)
     #save gen models to disk
-    imageio.imsave(f"gen_img{epoch}.jpg", generated_img)
+    imageio.imwrite(f"../outputs/gen_img{epoch}.jpg", tensor_to_image(gen_image))
     images.append(generated_img)
     epoch_loss_g = loss_g / bi
     epoch_loss_d = loss_d / bi
